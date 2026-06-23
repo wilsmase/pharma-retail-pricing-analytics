@@ -1,5 +1,5 @@
 """
-Pharmaceutical Retail Pricing Analytics — Streamlit Dashboard
+Pharmaceutical Retail Pricing Analytics, Streamlit Dashboard
 =============================================================
 An interactive market-research platform that turns a raw retail pricing
 spreadsheet (CVS, Walmart, Costco) into an executive-grade analytics tool:
@@ -31,7 +31,7 @@ st.set_page_config(
 )
 
 # --------------------------------------------------------------------------- #
-# Design system — colours and Plotly template
+# Design system, colours and Plotly template
 # --------------------------------------------------------------------------- #
 PALETTE = {
     "ink": "#16242F",
@@ -218,7 +218,7 @@ def fmt_pct(x) -> str:
 
 
 # --------------------------------------------------------------------------- #
-# Sidebar — branding, data source, navigation, global filters
+# Sidebar, branding, data source, navigation, global filters
 # --------------------------------------------------------------------------- #
 st.sidebar.markdown(
     '<div class="side-brand">💊 Pharma Pricing IQ</div>'
@@ -282,7 +282,7 @@ def hero():
         <div class="hero">
             <h1>Pharmaceutical Retail Pricing Analytics</h1>
             <p>Comparative pricing, availability &amp; generic-substitution intelligence across
-            CVS, Walmart and Costco — built from field-collected nutraceutical &amp; OTC pricing data.</p>
+            CVS, Walmart and Costco, built from field-collected nutraceutical &amp; OTC pricing data.</p>
             <div class="pills">
                 <span class="pill">📦 {df['category'].nunique()} therapeutic categories</span>
                 <span class="pill">🏪 {df['retailer'].nunique()} retailers</span>
@@ -301,7 +301,7 @@ def section_title(title: str, sub: str):
 
 
 # =========================================================================== #
-# SECTION 1 — EXECUTIVE SUMMARY
+# SECTION 1, EXECUTIVE SUMMARY
 # =========================================================================== #
 def render_executive():
     hero()
@@ -330,7 +330,7 @@ def render_executive():
     c1, c2 = st.columns([1.15, 1])
     with c1:
         section_title("Price Competitiveness by Retailer",
-                      "Average normalised unit price — lower is cheaper for the shopper.")
+                      "Average normalised unit price, lower is cheaper for the shopper.")
         sc = dp.retailer_scorecard(fdf)
         fig = px.bar(sc, x="Retailer", y="Avg Unit Price", text="Avg Unit Price",
                      color="Retailer", color_discrete_map=RETAILER_COLORS)
@@ -390,7 +390,7 @@ def render_executive():
             leads on availability ({most_avail['In-Stock Rate']*100:.0f}% in stock).
             Choosing generic over brand saves roughly
             <b>{fmt_pct(k['generic_vs_brand_savings'])}</b> on a unit-price basis across the
-            tracked categories — the single largest lever for cost reduction.</p>
+            tracked categories, the single largest lever for cost reduction.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -398,7 +398,7 @@ def render_executive():
 
 
 # =========================================================================== #
-# SECTION 2 — PRODUCT COMPARISON
+# SECTION 2, PRODUCT COMPARISON
 # =========================================================================== #
 def render_product():
     section_title("Product-Level Price Comparison",
@@ -496,7 +496,7 @@ def render_product():
 
 
 # =========================================================================== #
-# SECTION 3 — RETAILER ANALYSIS
+# SECTION 3, RETAILER ANALYSIS
 # =========================================================================== #
 def render_retailer():
     section_title("Retailer-Level Analysis",
@@ -559,7 +559,7 @@ def render_retailer():
                          size="Listings", color="Retailer", size_max=55,
                          color_discrete_map=RETAILER_COLORS, text="Retailer")
         fig.update_traces(textposition="top center")
-        fig.update_layout(xaxis_title="Avg unit price ($) — cheaper →",
+        fig.update_layout(xaxis_title="Avg unit price ($), cheaper →",
                           yaxis_title="In-stock rate", showlegend=False)
         fig.update_xaxes(autorange="reversed")
         fig.update_yaxes(tickformat=".0%")
@@ -582,11 +582,11 @@ def render_retailer():
 
 
 # =========================================================================== #
-# SECTION 4 — GENERIC VS BRAND
+# SECTION 4, GENERIC VS BRAND
 # =========================================================================== #
 def render_generic_brand():
     section_title("Generic vs. Brand Pricing",
-                  "Quantify the substitution opportunity — how much shoppers save by "
+                  "Quantify the substitution opportunity, how much shoppers save by "
                   "choosing the generic equivalent.")
 
     pa = dp.priced_available(fdf)
@@ -616,7 +616,7 @@ def render_generic_brand():
     c1, c2 = st.columns([1.1, 1])
     with c1:
         section_title("Generic vs. Brand Unit Price by Category",
-                      "Paired comparison — shorter generic bars mean bigger savings.")
+                      "Paired comparison, shorter generic bars mean bigger savings.")
         melt = gb.melt(id_vars="category", value_vars=["Generic", "Brand"],
                        var_name="Type", value_name="Unit Price").dropna()
         fig = px.bar(melt, x="category", y="Unit Price", color="Type",
@@ -646,7 +646,7 @@ def render_generic_brand():
     if not neg.empty:
         names = ", ".join(neg["category"].tolist())
         note = (f" Notably, for <b>{names}</b> the branded option was actually cheaper "
-                f"per unit — a reminder that generic ≠ automatically cheaper, and unit-price "
+                f"per unit, a reminder that generic ≠ automatically cheaper, and unit-price "
                 f"checking still pays off.")
     st.markdown(
         f"""
@@ -675,11 +675,11 @@ def render_generic_brand():
 
 
 # =========================================================================== #
-# SECTION 5 — AVAILABILITY
+# SECTION 5, AVAILABILITY
 # =========================================================================== #
 def render_availability():
     section_title("Availability & Stock Coverage",
-                  "Where shoppers can actually find each product — and where the gaps are.")
+                  "Where shoppers can actually find each product, and where the gaps are.")
 
     overall = fdf["is_available"].mean()
     by_ret = fdf.groupby("retailer_short")["is_available"].mean()
@@ -762,7 +762,7 @@ def render_availability():
 
 
 # =========================================================================== #
-# SECTION 6 — MARKET INSIGHTS (auto-generated)
+# SECTION 6, MARKET INSIGHTS (auto-generated)
 # =========================================================================== #
 def build_insights() -> list[dict]:
     """Generate data-driven narrative insights from the filtered dataset."""
@@ -807,7 +807,7 @@ def build_insights() -> list[dict]:
                 "title": f"Brand beats generic for {worst['category']}",
                 "body": (f"For <b>{worst['category']}</b>, the branded product is actually "
                          f"{abs(worst['Savings vs Brand %']):.0f}% cheaper per unit than the "
-                         f"generic shelf options — driven by larger brand pack sizes. "
+                         f"generic shelf options, driven by larger brand pack sizes. "
                          f"A blanket 'always buy generic' rule would overpay here."),
             })
 
@@ -831,7 +831,7 @@ def build_insights() -> list[dict]:
                 "tag": "watch", "tag_label": "Hard to Find",
                 "title": "Several categories are under-stocked everywhere",
                 "body": (f"<b>{names}</b> were in stock at fewer than half of retailer "
-                         f"searches — pointing to niche-supplement demand that mass retailers "
+                         f"searches, pointing to niche-supplement demand that mass retailers "
                          f"only partially serve, and an opening for specialty channels."),
             })
 
@@ -854,7 +854,7 @@ def build_insights() -> list[dict]:
 
 def render_insights():
     section_title("Automated Market Insights",
-                  "Narrative findings generated directly from the filtered dataset — "
+                  "Narrative findings generated directly from the filtered dataset, "
                   "the analytical backbone of the research conclusions.")
 
     insights = build_insights()
@@ -914,13 +914,13 @@ def render_insights():
         {best_avail} competes on assortment breadth and availability. The two rarely
         coincide, so the optimal sourcing strategy is retailer-by-category rather than
         a single preferred store.<br><br>
-        <b>2. Generic substitution is the dominant cost lever — but not universal.</b>
+        <b>2. Generic substitution is the dominant cost lever, but not universal.</b>
         On average generics run ~{fmt_pct(k['generic_vs_brand_savings'])} cheaper per unit,
         yet a minority of categories invert this because branded products ship in larger
         packs. Unit-price comparison, not brand status, should drive purchasing.<br><br>
         <b>3. Availability is the binding constraint for niche nutraceuticals.</b>
         Mainstream OTC drugs (e.g. ibuprofen, loratadine) are universally stocked, while
-        specialty supplements show material gaps — an availability premium that specialty
+        specialty supplements show material gaps, an availability premium that specialty
         and online channels are positioned to capture.<br><br>
         <b>4. Bulk economics reward the informed shopper.</b> Larger pack counts reliably
         reduce unit cost; warehouse-format listings anchor the best-value tier across
