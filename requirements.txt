@@ -1,0 +1,9 @@
+# Pharmaceutical Retail Pricing Analytics — dependencies
+# Tested with the versions pinned below; the lower bounds are the minimums
+# that support the APIs used in app.py (e.g. the Streamlit `width="stretch"` arg).
+
+streamlit>=1.50,<2.0
+pandas>=2.1
+plotly>=5.20
+openpyxl>=3.1
+numpy>=1.24
